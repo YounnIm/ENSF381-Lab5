@@ -80,12 +80,37 @@ function performOperation(operation) {
     console.log("1st Matrix",matrix1);
     console.log("2nd Matrix", matrix2);
     console.log("Operation", operation);
-    // Just a test result
-    let result = [1, 2, 3, 4, 5, 6, 7, 8];
-    // Call your matrix calculation functions here
-    // For example: if (operation === 'add') { addMatrices(matrix1, matrix2); }
-	// prints suitable messages for impossible situation
-    showResult('The Result', 'matrix3', 2, 4, result); // use suitable function for printing results
+    let result;
+    switch(operation) {
+        case 'add':
+            if(matrix1.length === matrix2.length && matrix1[0].length === matrix2[0].length) {
+                result = addMatrices(matrix1, matrix2);
+            } else {
+                console.log("Cannot add matrices of different dimensions.");
+                return;
+            }
+            break;
+        case 'subtract':
+            if(matrix1.length === matrix2.length && matrix1[0].length === matrix2[0].length) {
+                result = subtractMatrices(matrix1, matrix2);
+            } else {
+                console.log("Cannot subtract matrices of different dimensions.");
+                return;
+            }
+            break;
+        case 'multiply':
+            if(matrix1[0].length === matrix2.length) {
+                result = multiplyMatrices(matrix1, matrix2);
+            } else {
+                console.log("Cannot multiply matrices where the number of columns in the first matrix does not equal the number of rows in the second matrix.");
+                return;
+            }
+            break;
+        default:
+            console.log("Invalid operation.");
+            return;
+    }
+    showResult2D('The Result', 'matrix3', result);
 }
 
 const getMatrixData1D = function (matrixId) {
@@ -119,7 +144,6 @@ const getMatrixData2D = function (matrixId) {
     return matrixData;
 };
 
-
 // Add your matrix calculation functions here
 // The functions must check the posibility of calculation too.
 function addMatrices(matrix1, matrix2){ 
@@ -128,6 +152,7 @@ function addMatrices(matrix1, matrix2){
         result[i] = [];
         for(let j = 0; j < matrix1[i].length; j++){
             result[i][j] = matrix1[i][j] + matrix2[i][j];
+
         }
     }
     return result;
@@ -138,6 +163,7 @@ const subtractMatrices = function (matrix1, matrix2) {
         result[i] = [];
         for(let j = 0; j < matrix1[i].length; j++){
             result[i][j] = matrix1[i][j] - matrix2[i][j];
+
         }
     }
     return result;
@@ -150,6 +176,7 @@ const multiplyMatrices = (matrix1, matrix2) => {
             result[i][j] = 0;
             for(let k = 0; k < matrix1[0].length; k++){
                 result[i][j] += matrix1[i][k] * matrix2[k][j];
+
             }
         }
     }
